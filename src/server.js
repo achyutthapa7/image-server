@@ -4,6 +4,10 @@ import express from "express";
 import multer from "multer";
 
 const app = express();
+const uploadPath = path.join("public", "uploads");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
 app.use("/image", express.static("./public/uploads"));
 
 // ✅ Allowed image types
