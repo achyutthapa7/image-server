@@ -55,7 +55,8 @@ app.post("/upload-image", upload.array("images", 5), (req, res) => {
       .json({ message: "Cannot upload more than 5 images." });
   }
 
-  const baseUrl = process.env.BASE_URL || `http://localhost:8000/image`;
+  const baseUrl =
+    `${process.env.BASE_URL}/image` || `http://localhost:8000/image`;
   const fileUrls = req.files.map((file) => `${baseUrl}/${file.filename}`);
 
   res.status(200).json({ message: "Upload successful", fileUrls });
