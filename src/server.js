@@ -42,7 +42,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage, fileFilter });
 
-// ✅ Upload route
 app.post("/upload-image", upload.array("images", 5), (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res
@@ -62,10 +61,8 @@ app.post("/upload-image", upload.array("images", 5), (req, res) => {
   res.status(200).json({ message: "Upload successful", fileUrls });
 });
 
-// ✅ Multer error handler
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {
-    // Multer-specific errors
     if (err.code === "LIMIT_UNEXPECTED_FILE") {
       return res
         .status(400)
@@ -73,12 +70,18 @@ app.use((err, req, res, next) => {
     }
     return res.status(400).json({ message: `Multer error: ${err.message}` });
   } else if (err) {
-    // General errors
     return res.status(500).json({ message: `Server error: ${err.message}` });
   }
   next();
 });
 
+app.get("/", (req, res) => {
+  return res.send("Hello World!");
+});
 app.listen(8000, () => {
-  console.log("✅ Image server running at http://localhost:8000");
+  console.log(
+    `✅ Image server running at ${
+      process.env.BASE_URL || "http://localhost:8000"
+    }`
+  );
 });
