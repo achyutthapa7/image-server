@@ -3,6 +3,7 @@ dotenv.config();
 import express from "express";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 const app = express();
 const uploadPath = path.join("public", "uploads");
 if (!fs.existsSync(uploadPath)) {
